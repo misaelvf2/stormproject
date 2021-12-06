@@ -23,7 +23,6 @@ import org.apache.storm.topology.base.BaseRichBolt;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
 import org.apache.storm.tuple.Values;
-import twitter4j.*;
 
 /**
  * This is a basic example of a Storm topology.

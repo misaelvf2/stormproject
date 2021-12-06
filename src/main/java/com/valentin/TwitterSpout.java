@@ -24,7 +24,9 @@ public class TwitterSpout extends BaseRichSpout {
 
     SpoutOutputCollector collector;
 
-    BlockingQueue<String> tweetQueue = new LinkedBlockingDeque<>(10);
+    String[] trackArray = { "$BTC", "$MSFT", "$NET" , "$PLTR", "$TSLA", "$AAPL", "$ETSY" };
+
+    BlockingQueue<String> tweetQueue = new LinkedBlockingDeque<>(1000);
 
     @Override
     public void open(Map<String, Object> conf, TopologyContext context, SpoutOutputCollector collector) {
@@ -65,18 +67,33 @@ public class TwitterSpout extends BaseRichSpout {
 
         twitterStream.addListener(listener);
 
-        String[] trackArray = { "$MSFT", "$BTC", "$NET" };
+        // String[] trackArray = { "$BTC", "$MSFT", "$NET" , "$PLTR", "$TSLA" };
         twitterStream.filter(new FilterQuery(trackArray));
     }
 
     @Override
     public void nextTuple() {
         try {
-            String tweet = tweetQueue.poll(100, TimeUnit.MILLISECONDS);
-            collector.emit(new Values(tweet));
+            String tweet = tweetQueue.poll(1000, TimeUnit.MILLISECONDS);
+            String ticker;
+
+            ticker = "";
+            if (tweet != null && tweet.length() > 0) {
+                for (String track : trackArray) {
+                    if (tweet.contains(track)) {
+                        ticker = track;
+                        break;
+                    }
+                }
+            }
+            if (!ticker.equals("")) {
+                collector.emit(new Values(ticker, tweet));
+            }
+            else {
+                return;
+            }
         } catch (InterruptedException e) {
             LOG.debug("No tweets yet...");
-            Utils.sleep(100);
             return;
         }
     }
@@ -91,7 +108,7 @@ public class TwitterSpout extends BaseRichSpout {
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
-        declarer.declare(new Fields("tweet"));
+        declarer.declare(new Fields("ticker", "tweet"));
     }
 
 }
