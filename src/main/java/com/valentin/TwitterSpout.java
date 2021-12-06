@@ -35,10 +35,10 @@ public class TwitterSpout extends BaseRichSpout {
         ConfigurationBuilder cb = new ConfigurationBuilder();
 
         cb.setDebugEnabled(true)
-        .setOAuthConsumerKey("Zs6WUdAbp3N5FjOrgSvjj84vG")
-        .setOAuthConsumerSecret("3T7GjyYcIu5BjdIhxnZrMaAwQgyq4tAEwWQN6cB6PncWba9aP5")
-        .setOAuthAccessToken("438836583-BwICiH63T5OVYP11KRj3PTsJ8dRL3yo8BJxLxnZY")
-        .setOAuthAccessTokenSecret("hyGxgqrToTbB28dVbjy9zgO0yjlQNyQ6eMDhHfm2yBasp");
+        .setOAuthConsumerKey("")
+        .setOAuthConsumerSecret("")
+        .setOAuthAccessToken("")
+        .setOAuthAccessTokenSecret("");
 
         StatusListener listener = new StatusListener() {
             public void onStatus(Status status) {
