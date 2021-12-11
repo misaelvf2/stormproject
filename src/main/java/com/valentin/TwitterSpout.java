@@ -13,7 +13,6 @@ import org.apache.storm.topology.OutputFieldsDeclarer;
 import org.apache.storm.topology.base.BaseRichSpout;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Values;
-import org.apache.storm.utils.Utils;
 
 import twitter4j.*;
 import twitter4j.StatusListener;
@@ -24,7 +23,7 @@ public class TwitterSpout extends BaseRichSpout {
 
     SpoutOutputCollector collector;
 
-    String[] trackArray = { "$BTC", "$MSFT", "$NET" , "$PLTR", "$TSLA", "$AAPL", "$ETSY" };
+    String[] trackArray = { "$MSFT", "$NET" , "$PLTR", "$TSLA", "$AAPL", "$ETSY", "$AMZN", "$GME" };
 
     BlockingQueue<String> tweetQueue = new LinkedBlockingDeque<>(1000);
 
@@ -67,7 +66,6 @@ public class TwitterSpout extends BaseRichSpout {
 
         twitterStream.addListener(listener);
 
-        // String[] trackArray = { "$BTC", "$MSFT", "$NET" , "$PLTR", "$TSLA" };
         twitterStream.filter(new FilterQuery(trackArray));
     }
 

@@ -61,22 +61,22 @@ public class SentimentAnalysisBolt extends BaseRichBolt {
         String tweet = tuple.getString(1);
         String sentiment = findSentiment(tweet);
 
-        if (!sentimentMap.containsKey(tweet)) {
-            sentimentMap.put(tweet, sentiment);
-         } else {
-            sentimentMap.put(tweet, sentiment);
-         }
+        // if (!sentimentMap.containsKey(tweet)) {
+        //     sentimentMap.put(tweet, sentiment);
+        //  } else {
+        //     sentimentMap.put(tweet, sentiment);
+        //  }
 
         collector.emit(tuple, new Values(ticker, tweet, findSentiment(tweet)));
         collector.ack(tuple);
     }
 
-    @Override
-    public void cleanup() {
-        for(Map.Entry<String, String> entry : sentimentMap.entrySet()){
-            System.out.println(entry.getKey() + " : " + entry.getValue());
-         }
-    }
+    // @Override
+    // public void cleanup() {
+    //     // for(Map.Entry<String, String> entry : sentimentMap.entrySet()){
+    //     //     System.out.println(entry.getKey() + " : " + entry.getValue());
+    //     //  }
+    // }
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
